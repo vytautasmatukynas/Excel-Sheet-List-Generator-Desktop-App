@@ -8,7 +8,7 @@ Select file:
 
 ![paveikslas](https://user-images.githubusercontent.com/51360361/228498703-f09b42d2-b73b-4812-8b01-129b6e260ee1.png)
 
-Generate new file with sheets:
+Creates new excel file:
 
 ![paveikslas](https://user-images.githubusercontent.com/51360361/228498812-8c23257c-b8db-4144-905a-6bb5846f6ecd.png)
 
