@@ -23,6 +23,9 @@ class main_window(QDialog):
 
     def widgets(self):
         """App Widgets"""
+        self.sort_column_name = QLineEdit()
+        self.sort_column_name.setPlaceholderText("Enter Name of Column with Palette Number")
+
         self.saved_file_name = QLineEdit()
         self.saved_file_name.setPlaceholderText("Enter New File Name")
 
@@ -45,6 +48,7 @@ class main_window(QDialog):
         self.main_layout = QHBoxLayout()
         self.button_layout = QVBoxLayout()
 
+        self.button_layout.addWidget(self.sort_column_name)
         self.button_layout.addWidget(self.saved_file_name)
         self.button_layout.addWidget(self.select_button)
         self.button_layout.addWidget(self.generate_button)
@@ -85,7 +89,7 @@ class main_window(QDialog):
          in main file and convert it to .csv .xlsx files. In saved Excel file function will expand cells to fit input
          to view full text, counts items in palette, aligns text to center, adds table border and styles Header items."""
         try:
-            column_name = "Paletė"
+            column_name = f"{self.sort_column_name.text()}"
 
             data = pd.read_csv(f"{self.directory}")
 
