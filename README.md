@@ -4,6 +4,9 @@ searches for column "Paletė" with palette numbers, sorts that column and splits
 
 Select file:
 
+![paveikslas](https://user-images.githubusercontent.com/51360361/228502401-297544f7-6ca3-4b29-805e-d5fb32ed1e4b.png)
+
+
 ![paveikslas](https://user-images.githubusercontent.com/51360361/228498586-f8a1b787-6248-4e4d-836a-c14c9f93fbed.png)
 
 ![paveikslas](https://user-images.githubusercontent.com/51360361/228498703-f09b42d2-b73b-4812-8b01-129b6e260ee1.png)
