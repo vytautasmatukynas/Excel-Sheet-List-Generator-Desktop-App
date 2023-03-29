@@ -57,101 +57,129 @@ class main_window(QDialog):
 
     def getFileInfo(self):
         """ This function selects file and gets all data like path/filename """
-        self.dialog = QFileDialog.getOpenFileName(self, "", "", "(*.csv)")
-        (self.directory, self.fileType) = self.dialog
-        # print(self.dialog)
+        try:
+            self.dialog = QFileDialog.getOpenFileName(self, "", "", "(*.csv)")
+            (self.directory, self.fileType) = self.dialog
+            # print(self.dialog)
 
-        # get file name only
-        self.file_name_ = Path(self.directory).name
-        # print(f"{self.file_name_}")
+            # get file name only
+            self.file_name_ = Path(self.directory).name
+            # print(f"{self.file_name_}")
 
-        # get file dir only
-        self.file_dir_ = Path(self.directory).parents[0]
-        # print(f"{self.file_dir_}")
+            # get file dir only
+            self.file_dir_ = Path(self.directory).parents[0]
+            # print(f"{self.file_dir_}")
 
-        self.file_name.setText(f'Selected File Name: {self.file_name_}')
+            self.file_name.setText(f'Selected File Name: {self.file_name_}')
+
+        except:
+            msg = QMessageBox()
+            msg.setWindowTitle("ERROR...")
+            msg.setText(f"Please select .csv file.")
+            msg.setIcon(QMessageBox.Warning)
+
+            x = msg.exec_()
 
     def start_palletes_count(self):
         """This function uses "pandas" to sort main file table and generates palettes lists by palette number column
          in main file and convert it to .csv .xlsx files. In saved Excel file function will expand cells to fit input
          to view full text, counts items in palette, aligns text to center, adds table border and styles Header items."""
-        data = pd.read_csv(f"{self.directory}")
+        try:
+            column_name = "Paletė"
 
-        data_table = pd.DataFrame(data)
+            data = pd.read_csv(f"{self.directory}")
 
-        grouped = data_table.groupby(data_table['Paletė'])
+            data_table = pd.DataFrame(data)
 
-        list_pallet = [a for a in data_table['Paletė']]
+            grouped = data_table.groupby(data_table[f'{column_name}'])
 
-        # get highest palette number
-        max_number = max(list_pallet)
+            list_pallet = [a for a in data_table[f'{column_name}']]
 
-        # generate .xlsx file to dir where .csv is
-        with pd.ExcelWriter(f"{self.file_dir_}\{self.saved_file_name.text()}.xlsx", engine='xlsxwriter') as writer:
-            for i in range(1, int(max_number) + 1):
-                if i in list_pallet:
-                    # group dataframe table - sort it by palette number, loop all palettes and create
-                    # different tables for different pallet
-                    data_tables = grouped.get_group(i)
+            # get highest palette number
+            max_number = max(list_pallet)
 
-                    # index reset to start index number from 1 (not 0 like default) after every loop
-                    data_tables.index = range(1, len(data_tables) + 1)
+            # generate .xlsx file to dir where .csv is
+            with pd.ExcelWriter(f"{self.file_dir_}\{self.saved_file_name.text()}.xlsx", engine='xlsxwriter') as writer:
+                if self.saved_file_name.text() == "":
+                    msg = QMessageBox()
+                    msg.setWindowTitle("ERROR...")
+                    msg.setText("Enter new file name.")
+                    msg.setIcon(QMessageBox.Information)
 
-                    print(data_tables)
+                    x = msg.exec_()
 
-                    # # Save to .csv file
-                    # data_tables.to_csv(f"palete", index=False)
+                else:
+                    for i in range(1, int(max_number) + 1):
+                        if i in list_pallet:
+                            # group dataframe table - sort it by palette number, loop all palettes and create
+                            # different tables for different pallet
+                            data_tables = grouped.get_group(i)
 
-                    # Save to .xlsx
-                    data_tables.style.set_properties(**{'text-align': 'center'}).to_excel(writer,
-                                                                                          sheet_name=f'palete_{i}',
-                                                                                          index=True,
-                                                                                          index_label="Nr.")
+                            # index reset to start index number from 1 (not 0 like default) after every loop
+                            data_tables.index = range(1, len(data_tables) + 1)
 
-                    # fit to cell
-                    auto_adjust_xlsx_column_width(data_tables, writer,
-                                                  sheet_name=f'palete_{i}',
-                                                  margin=3)
+                            print(data_tables)
 
-                    # create workbook
-                    workbook = writer.book
-                    worksheet = writer.sheets[f'palete_{i}']
+                            # # Save to .csv file
+                            # data_tables.to_csv(f"palete", index=False)
 
-                    # add border on cells
-                    border_format = workbook.add_format({'border': True,
-                                                         'align': 'center',
-                                                         'valign': 'vcenter'})
+                            # Save to .xlsx
+                            data_tables.style.set_properties(**{'text-align': 'center'}).to_excel(writer,
+                                                                                                  sheet_name=f'palete_{i}',
+                                                                                                  index=True,
+                                                                                                  index_label="Nr.")
 
-                    # add style to headers
-                    header_format = workbook.add_format({'font_name': 'Arial',
-                                                         'font_size': 10,
-                                                         'bold': True,
-                                                         'bg_color': 'yellow'})
+                            # fit to cell
+                            auto_adjust_xlsx_column_width(data_tables, writer,
+                                                          sheet_name=f'palete_{i}',
+                                                          margin=3)
 
-                    # "xl_range(0, 0, len(data_tables), len(data_tables.columns)"
-                    # first int "0" and second "0" is start point first cell,
-                    # third int is how much rows your need to apply
-                    # and last one is for how many columns to apply
-                    worksheet.conditional_format(xls.utility.xl_range(
-                        0, 0, len(data_tables), len(data_tables.columns)),
-                        {'type': 'no_errors',
-                         'format': border_format})
+                            # create workbook
+                            workbook = writer.book
+                            worksheet = writer.sheets[f'palete_{i}']
 
-                    worksheet.conditional_format(xls.utility.xl_range(
-                        0, 0, 0, len(data_tables.columns)),
-                        {'type': 'no_errors',
-                         'format': header_format})
+                            # add border on cells
+                            border_format = workbook.add_format({'border': True,
+                                                                 'align': 'center',
+                                                                 'valign': 'vcenter'})
 
-                    row_count = len(data_tables) + 1
+                            # add style to headers
+                            header_format = workbook.add_format({'font_name': 'Arial',
+                                                                 'font_size': 10,
+                                                                 'bold': True,
+                                                                 'bg_color': 'yellow'})
 
-                    for i in range(0, row_count):
-                        value = 100
+                            # "xl_range(0, 0, len(data_tables), len(data_tables.columns)"
+                            # first int "0" and second "0" is start point first cell,
+                            # third int is how much rows your need to apply
+                            # and last one is for how many columns to apply
+                            worksheet.conditional_format(xls.utility.xl_range(
+                                0, 0, len(data_tables), len(data_tables.columns)),
+                                {'type': 'no_errors',
+                                 'format': border_format})
 
-                        self.progress_bar.setRange(0, value)
+                            worksheet.conditional_format(xls.utility.xl_range(
+                                0, 0, 0, len(data_tables.columns)),
+                                {'type': 'no_errors',
+                                 'format': header_format})
 
-                        progress_val = int(((i + 1) / row_count) * 100)
-                        self.progress_bar.setValue(progress_val)
+                            row_count = len(data_tables) + 1
 
+                            for i in range(0, row_count):
+                                value = 100
+
+                                self.progress_bar.setRange(0, value)
+
+                                progress_val = int(((i + 1) / row_count) * 100)
+                                self.progress_bar.setValue(progress_val)
+
+        except:
+            msg = QMessageBox()
+            msg.setWindowTitle("ERROR...")
+            msg.setText(f"No column name {column_name}.")
+            msg.setIcon(QMessageBox.Warning)
+
+            x = msg.exec_()
 
 
 def main():
