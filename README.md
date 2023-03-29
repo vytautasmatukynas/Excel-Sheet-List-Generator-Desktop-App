@@ -24,4 +24,8 @@ New file is saved in currecnt .csv file dir:
 
 Table from .csv are sorted and new file is created with sheets for every palette:
 
-![paveikslas](https://user-images.githubusercontent.com/51360361/228499068-7c2d8b59-d699-4ff4-aac1-7e910bedd02b.png)
+![paveikslas](https://user-images.githubusercontent.com/51360361/228502998-2ea57364-f84e-47c4-8bcc-705151e6585b.png)
+
+![paveikslas](https://user-images.githubusercontent.com/51360361/228502960-ea6b9512-3b5c-4943-bc0f-71916eb474b9.png)
+
+![paveikslas](https://user-images.githubusercontent.com/51360361/228503053-1e62be0d-3e69-4650-8d8a-d89948dc4bfb.png)
