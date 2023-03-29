@@ -8,6 +8,8 @@ Select file:
 
 ![paveikslas](https://user-images.githubusercontent.com/51360361/228502671-b0012a27-29b4-496e-a48a-8d03aaa94612.png)
 
+![paveikslas](https://user-images.githubusercontent.com/51360361/228518186-3414b715-676b-4d46-a45c-589f6c7971aa.png)
+
 ![paveikslas](https://user-images.githubusercontent.com/51360361/228517681-c91a73f1-9355-4de3-94d5-a2d776efa097.png)
 
 Type name of column with palette numbers and name of new file:
