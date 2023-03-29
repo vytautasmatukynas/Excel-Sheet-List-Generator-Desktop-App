@@ -1,6 +1,6 @@
 # palette-content-generator
 This app generates palette content excel file with sheets for every palette in main excel(.csv) file. App takes .csv file, gets all data from it,
-searches for column "Paletė" with palette numbers, sorts that column and splits it in several tables for all palettes, then puts everything to new excel file and creates sheets for all palettes.
+searches for column "column_name" with palette numbers, sorts that column and splits it in several tables for all palettes, then puts everything to new excel file and creates sheets for all palettes.
 
 Select file:
 
