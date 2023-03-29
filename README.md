@@ -12,7 +12,7 @@ Creates new excel file:
 
 ![paveikslas](https://user-images.githubusercontent.com/51360361/228498812-8c23257c-b8db-4144-905a-6bb5846f6ecd.png)
 
-New file is saved in main fil dir:
+New file is saved in currecnt .csv file dir:
 
 ![paveikslas](https://user-images.githubusercontent.com/51360361/228498896-e99d28af-429e-451c-b1f4-580fb53d43e3.png)
 
