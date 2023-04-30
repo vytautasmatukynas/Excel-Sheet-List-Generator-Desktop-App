@@ -4,6 +4,7 @@ I created this app basically for generating sheets for pallet  content info, tha
 This app generates excel file with seperate sheets from main excel file. It searches for column "column_name" with pallet numbers or whatever you like to search and split to different sheets, sorts that column and splits it in several tables, then puts everything to new excel file and creates sheets..
 
 Select file:
+
 ![paveikslas](https://user-images.githubusercontent.com/51360361/235347901-ce646736-1ea0-46de-abaa-dcbc6514871a.png)
 
 ![paveikslas](https://user-images.githubusercontent.com/51360361/235347986-a8099e0e-506d-48de-8005-98b2ed1350cc.png)
