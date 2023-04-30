@@ -5,8 +5,11 @@ import pandas as pd
 import xlsxwriter as xls
 from PyQt5 import QtCore
 from PyQt5.QtWidgets import *
+from PyQt5.QtGui import *
 from UliPlot.XLSX import auto_adjust_xlsx_column_width
 from xlsxwriter import utility
+
+from style_gray import QDialogsheetstyle
 
 
 class main_window(QDialog):
@@ -15,33 +18,58 @@ class main_window(QDialog):
         """App Window"""
         super().__init__()
         self.setWindowTitle("Palette Generator")
-        self.setMinimumSize(250, 150)
+        # self.setWindowIcon(QIcon('icons/uzsakymai_icon.ico'))
+        self.setMinimumSize(350, 280)
 
         self.widgets()
         self.layouts()
+        QDialogsheetstyle(self)
         self.show()
 
     def widgets(self):
         """App Widgets"""
         self.sort_column_name = QLineEdit()
         self.sort_column_name.setPlaceholderText("Enter Name of Column with Palette Number")
+        self.sort_column_name.setFont(QFont("Times", 12))
+        # self.sort_column_name.setFixedHeight(25)
+
+
 
         self.saved_file_name = QLineEdit()
         self.saved_file_name.setPlaceholderText("Enter New File Name")
+        self.saved_file_name.setFont(QFont("Times", 12))
+        # self.saved_file_name.setFixedHeight(25)
+
+
 
         self.select_button = QPushButton("Select File")
         self.select_button.clicked.connect(self.getFileInfo)
+        self.select_button.setFont(QFont("Times", 10))
+        self.select_button.setFixedHeight(25)
+
+
 
         self.generate_button = QPushButton("Generate File with Sheets")
         self.generate_button.clicked.connect(self.start_palletes_count)
+        self.generate_button.setFont(QFont("Times", 10))
+        self.generate_button.setFixedHeight(25)
+
+
 
         self.file_name = QLabel("Selected File Name: ")
+        self.file_name.setFont(QFont("Times", 12))
+        # self.file_name.setFixedHeight(30)
+
+
 
         self.progress_bar = QProgressBar()
         self.progress_bar.setAlignment(QtCore.Qt.AlignCenter)
         self.progress_bar.setStyleSheet("""QProgressBar::chunk {
                                         background-color: steelblue;
                                         }""")
+        self.progress_bar.setFont(QFont("Times", 12))
+        self.progress_bar.setFixedHeight(30)
+
 
     def layouts(self):
         """App Layouts"""
@@ -50,10 +78,12 @@ class main_window(QDialog):
 
         self.button_layout.addWidget(self.sort_column_name)
         self.button_layout.addWidget(self.saved_file_name)
+        self.button_layout.addWidget(QLabel(""))
         self.button_layout.addWidget(self.select_button)
-        self.button_layout.addWidget(self.generate_button)
         self.button_layout.addWidget(self.file_name)
+        self.button_layout.addWidget(QLabel(""))
         self.button_layout.addWidget(self.progress_bar)
+        self.button_layout.addWidget(self.generate_button)
 
         self.main_layout.addLayout(self.button_layout)
 
@@ -62,7 +92,7 @@ class main_window(QDialog):
     def getFileInfo(self):
         """ This function selects file and gets all data like path/filename """
         try:
-            self.dialog = QFileDialog.getOpenFileName(self, "", "", "(*.csv)")
+            self.dialog = QFileDialog.getOpenFileName(self, "", "", "(*.xlsx;*.xls)")
             (self.directory, self.fileType) = self.dialog
             # print(self.dialog)
 
@@ -88,10 +118,11 @@ class main_window(QDialog):
         """This function uses "pandas" to sort main file table and generates palettes lists by palette number column
          in main file and convert it to .csv .xlsx files. In saved Excel file function will expand cells to fit input
          to view full text, counts items in palette, aligns text to center, adds table border and styles Header items."""
-        try:
-            column_name = f"{self.sort_column_name.text()}"
+        column_name = f"{self.sort_column_name.text()}"
 
-            data = pd.read_csv(f"{self.directory}")
+        try:
+
+            data = pd.read_excel(f"{self.directory}")
 
             data_table = pd.DataFrame(data)
 
@@ -133,7 +164,7 @@ class main_window(QDialog):
                                                                                                   index=True,
                                                                                                   index_label="Nr.")
 
-                            # fit to cell
+                            # # fit to cell
                             auto_adjust_xlsx_column_width(data_tables, writer,
                                                           sheet_name=f'palete_{i}',
                                                           margin=3)
