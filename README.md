@@ -4,31 +4,28 @@ I created this app basically for generating sheets for pallet  content info, tha
 This app generates excel file with seperate sheets from main excel file. It searches for column "column_name" with pallet numbers or whatever you like to search and split to different sheets, sorts that column and splits it in several tables, then puts everything to new excel file and creates sheets..
 
 Select file:
+![paveikslas](https://user-images.githubusercontent.com/51360361/235347901-ce646736-1ea0-46de-abaa-dcbc6514871a.png)
 
-![paveikslas](https://user-images.githubusercontent.com/51360361/228502401-297544f7-6ca3-4b29-805e-d5fb32ed1e4b.png)
+![paveikslas](https://user-images.githubusercontent.com/51360361/235347986-a8099e0e-506d-48de-8005-98b2ed1350cc.png)
 
-![paveikslas](https://user-images.githubusercontent.com/51360361/228502671-b0012a27-29b4-496e-a48a-8d03aaa94612.png)
+![paveikslas](https://user-images.githubusercontent.com/51360361/235348000-c5f7f52d-db58-45e1-a3ee-91b5d2d6804d.png)
 
-![paveikslas](https://user-images.githubusercontent.com/51360361/228518186-3414b715-676b-4d46-a45c-589f6c7971aa.png)
+Type name of column you want to split and name of new file:
 
-![paveikslas](https://user-images.githubusercontent.com/51360361/228517681-c91a73f1-9355-4de3-94d5-a2d776efa097.png)
-
-Type name of column with palette numbers and name of new file:
-
-![paveikslas](https://user-images.githubusercontent.com/51360361/228517804-b5ac5a24-303d-4d48-8bb8-90e280fbc105.png)
+![paveikslas](https://user-images.githubusercontent.com/51360361/235348057-b33fe116-cc64-4a5b-848f-7b5a37bff581.png)
 
 Creates new excel file:
 
-![paveikslas](https://user-images.githubusercontent.com/51360361/228517914-d33d817a-c2af-4fac-9570-236f4e367378.png)
+![paveikslas](https://user-images.githubusercontent.com/51360361/235348068-9172d178-0da9-4e3b-9ff8-65dcf820b58d.png)
 
-New file is saved in current .csv file dir:
+New file is saved in current file dir:
 
-![paveikslas](https://user-images.githubusercontent.com/51360361/228498896-e99d28af-429e-451c-b1f4-580fb53d43e3.png)
+![paveikslas](https://user-images.githubusercontent.com/51360361/235348082-3b632745-3d94-42d7-ade7-7443278a6044.png)
 
-Table from .csv are sorted and new file is created with sheets for every palette:
+Table from main excel file are sorted and new file is created with sheets:
 
-![paveikslas](https://user-images.githubusercontent.com/51360361/228502998-2ea57364-f84e-47c4-8bcc-705151e6585b.png)
+![paveikslas](https://user-images.githubusercontent.com/51360361/235348112-9bae1ac1-8179-48bd-b023-f3814a41d208.png)
 
-![paveikslas](https://user-images.githubusercontent.com/51360361/228502960-ea6b9512-3b5c-4943-bc0f-71916eb474b9.png)
+![paveikslas](https://user-images.githubusercontent.com/51360361/235348099-2709183e-50f2-4a37-81e4-d87a9357f940.png)
 
-![paveikslas](https://user-images.githubusercontent.com/51360361/228503053-1e62be0d-3e69-4650-8d8a-d89948dc4bfb.png)
+![paveikslas](https://user-images.githubusercontent.com/51360361/235348105-15c31317-f292-46b6-b7a1-8377ff22c351.png)
