@@ -108,104 +108,104 @@ class main_window(QDialog):
          to view full text, counts items in palette, aligns text to center, adds table border and styles Header items."""
         column_name = f"{self.sort_column_name.text()}"
 
-        # try:
+        try:
 
-        data = pd.read_excel(f"{self.directory}")
+            data = pd.read_excel(f"{self.directory}")
+    
+            data_table = pd.DataFrame(data)
+    
+            print(data_table)
+    
+            grouped = data_table.groupby(data_table[f'{column_name}'])
+    
+            list_pallet = [a for a in data_table[f'{column_name}']]
+    
+            # get highest palette number
+            max_number = max(list_pallet)
+    
+            # generate .xlsx file to dir where .csv is
+            with pd.ExcelWriter(f"{self.file_dir_}\{self.saved_file_name.text()}.xlsx", engine='xlsxwriter') as writer:
+                if self.saved_file_name.text() == "":
+                    msg = QMessageBox()
+                    msg.setWindowTitle("ERROR...")
+                    msg.setText("Enter new file name.")
+                    msg.setIcon(QMessageBox.Information)
+    
+                    x = msg.exec_()
+    
+                else:
+                    for i in range(1, int(max_number) + 1):
+                        if i in list_pallet:
+                            # group dataframe table - sort it by palette number, loop all palettes and create
+                            # different tables for different pallet
+                            data_tables = grouped.get_group(i)
+    
+                            # index reset to start index number from 1 (not 0 like default) after every loop
+                            data_tables.index = range(1, len(data_tables) + 1)
+    
+                            print(data_tables)
+    
+                            # # Save to .csv file
+                            # data_tables.to_csv(f"palete", index=False)
+    
+                            # Save to .xlsx
+                            data_tables.style.set_properties(**{'text-align': 'center'}). \
+                                to_excel(writer,
+                                         sheet_name=f'{self.sort_column_name.text()}_{i}',
+                                         index=True,
+                                         index_label="Nr.")
+    
+                            # # fit to cell
+                            auto_adjust_xlsx_column_width(data_tables, writer,
+                                                          sheet_name=f'{self.sort_column_name.text()}_{i}',
+                                                          margin=3)
+    
+                            # create workbook
+                            workbook = writer.book
+                            worksheet = writer.sheets[f'{self.sort_column_name.text()}_{i}']
+    
+                            # add border on cells
+                            border_format = workbook.add_format({'border': True,
+                                                                 'align': 'center',
+                                                                 'valign': 'vcenter'})
+    
+                            # add style to headers
+                            header_format = workbook.add_format({'font_name': 'Arial',
+                                                                 'font_size': 10,
+                                                                 'bold': True,
+                                                                 'bg_color': 'yellow'})
+    
+                            # "xl_range(0, 0, len(data_tables), len(data_tables.columns)"
+                            # first int "0" and second "0" is start point first cell,
+                            # third int is how much rows your need to apply
+                            # and last one is for how many columns to apply
+                            worksheet.conditional_format(xls.utility.xl_range(
+                                0, 0, len(data_tables), len(data_tables.columns)),
+                                {'type': 'no_errors',
+                                 'format': border_format})
+    
+                            worksheet.conditional_format(xls.utility.xl_range(
+                                0, 0, 0, len(data_tables.columns)),
+                                {'type': 'no_errors',
+                                 'format': header_format})
+    
+                            row_count = len(data_tables) + 1
+    
+                            for i in range(0, row_count):
+                                value = 100
+    
+                                self.progress_bar.setRange(0, value)
+    
+                                progress_val = int(((i + 1) / row_count) * 100)
+                                self.progress_bar.setValue(progress_val)
 
-        data_table = pd.DataFrame(data)
+        except:
+            msg = QMessageBox()
+            msg.setWindowTitle("ERROR...")
+            msg.setText(f"No column name {column_name}.")
+            msg.setIcon(QMessageBox.Warning)
 
-        print(data_table)
-
-        grouped = data_table.groupby(data_table[f'{column_name}'])
-
-        list_pallet = [a for a in data_table[f'{column_name}']]
-
-        # get highest palette number
-        max_number = max(list_pallet)
-
-        # generate .xlsx file to dir where .csv is
-        with pd.ExcelWriter(f"{self.file_dir_}\{self.saved_file_name.text()}.xlsx", engine='xlsxwriter') as writer:
-            if self.saved_file_name.text() == "":
-                msg = QMessageBox()
-                msg.setWindowTitle("ERROR...")
-                msg.setText("Enter new file name.")
-                msg.setIcon(QMessageBox.Information)
-
-                x = msg.exec_()
-
-            else:
-                for i in range(1, int(max_number) + 1):
-                    if i in list_pallet:
-                        # group dataframe table - sort it by palette number, loop all palettes and create
-                        # different tables for different pallet
-                        data_tables = grouped.get_group(i)
-
-                        # index reset to start index number from 1 (not 0 like default) after every loop
-                        data_tables.index = range(1, len(data_tables) + 1)
-
-                        print(data_tables)
-
-                        # # Save to .csv file
-                        # data_tables.to_csv(f"palete", index=False)
-
-                        # Save to .xlsx
-                        data_tables.style.set_properties(**{'text-align': 'center'}). \
-                            to_excel(writer,
-                                     sheet_name=f'{self.sort_column_name.text()}_{i}',
-                                     index=True,
-                                     index_label="Nr.")
-
-                        # # fit to cell
-                        auto_adjust_xlsx_column_width(data_tables, writer,
-                                                      sheet_name=f'{self.sort_column_name.text()}_{i}',
-                                                      margin=3)
-
-                        # create workbook
-                        workbook = writer.book
-                        worksheet = writer.sheets[f'{self.sort_column_name.text()}_{i}']
-
-                        # add border on cells
-                        border_format = workbook.add_format({'border': True,
-                                                             'align': 'center',
-                                                             'valign': 'vcenter'})
-
-                        # add style to headers
-                        header_format = workbook.add_format({'font_name': 'Arial',
-                                                             'font_size': 10,
-                                                             'bold': True,
-                                                             'bg_color': 'yellow'})
-
-                        # "xl_range(0, 0, len(data_tables), len(data_tables.columns)"
-                        # first int "0" and second "0" is start point first cell,
-                        # third int is how much rows your need to apply
-                        # and last one is for how many columns to apply
-                        worksheet.conditional_format(xls.utility.xl_range(
-                            0, 0, len(data_tables), len(data_tables.columns)),
-                            {'type': 'no_errors',
-                             'format': border_format})
-
-                        worksheet.conditional_format(xls.utility.xl_range(
-                            0, 0, 0, len(data_tables.columns)),
-                            {'type': 'no_errors',
-                             'format': header_format})
-
-                        row_count = len(data_tables) + 1
-
-                        for i in range(0, row_count):
-                            value = 100
-
-                            self.progress_bar.setRange(0, value)
-
-                            progress_val = int(((i + 1) / row_count) * 100)
-                            self.progress_bar.setValue(progress_val)
-
-        # except:
-        #     msg = QMessageBox()
-        #     msg.setWindowTitle("ERROR...")
-        #     msg.setText(f"No column name {column_name}.")
-        #     msg.setIcon(QMessageBox.Warning)
-        #
-        #     x = msg.exec_()
+            x = msg.exec_()
 
 # def main():
 #     App = QApplication(sys.argv)
