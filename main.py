@@ -207,13 +207,13 @@ class main_window(QDialog):
 
             x = msg.exec_()
 
-# def main():
-#     App = QApplication(sys.argv)
-#
-#     window = main_window()
-#
-#     sys.exit(App.exec_())
-#
-#
-# if __name__ == '__main__':
-#     main()
+def main():
+    App = QApplication(sys.argv)
+
+    window = main_window()
+
+    sys.exit(App.exec_())
+
+
+if __name__ == '__main__':
+    main()
